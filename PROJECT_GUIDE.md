@@ -75,8 +75,8 @@ npm run preview
 
 ## 🗄️ PocketBase Backend Information
 
-- **PocketBase Endpoint:** `https://spb.tmadhu.me`
-- **Admin Dashboard:** `https://spb.tmadhu.me/_/`
+- **PocketBase Endpoint:** `https://pbdb2.duckdns.org`
+- **Admin Dashboard:** `https://pbdb2.duckdns.org/_/`
 - **Collections:**
   - `products`: জ্যাকেট ক্যাটালগ ও ফটো। ফিল্ডস: `jacket_color`, `design_variant`, `stock_type`, `badge_en`, `badge_bn`, `available_sizes`, `price`, `images` (file, multiple max 10), `back_image`, `front_image`। পাবলিক রিড এলাউড (`listRule: ""`, `viewRule: ""`)।
   - `orders`: কাস্টমার অর্ডার সংরক্ষণ টেবিল। ফিল্ডস: `customer_name`, `phone`, `order_type`, `jacket_color`, `design_variant`, `size`, `quantity`, `delivery_zone`, `delivery_address`, `payment_method`, `payment_type`, `sender_number`, `trx_id`, `total_amount`। পাবলিক ক্রিয়েট এলাউড (`createRule: ""`)।

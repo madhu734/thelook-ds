@@ -5,7 +5,7 @@
 // No admin UI is exposed in the frontend.
 
 // PocketBase Backend Configuration
-export const POCKETBASE_URL = 'https://spb.tmadhu.me';
+export const POCKETBASE_URL = 'https://pbdb2.duckdns.org';
 export const PB_URL = POCKETBASE_URL;
 export const PB_PRODUCTS_COLLECTION = 'products'; // Table 1: Dynamic Jacket Photos & Stock
 export const PB_HOODIES_COLLECTION = 'hoodies';   // Table 2: Dynamic Hoodie Photos & Stock
