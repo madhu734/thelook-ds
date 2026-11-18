@@ -30,6 +30,13 @@ import CustomPreOrderSection from './components/CustomPreOrderSection';
 import CheckoutDrawer from './components/CheckoutDrawer';
 import { SizeGuideModal, OrderReceiptModal } from './components/Modals';
 import MobileStickyBar from './components/MobileStickyBar';
+import {
+  trackViewItemList,
+  trackViewItem,
+  trackAddToCart,
+  trackBeginCheckout,
+  trackPurchase
+} from './utils/analytics';
 
 export default function App() {
   // STRICT INITIAL DEFAULTS: English ('en') + Light Mode ('light')
@@ -84,6 +91,9 @@ export default function App() {
       if (items && items.length > 0) {
         setCatalog(items);
         setSelectedProduct(items[0]);
+        trackViewItemList(items);
+      } else {
+        trackViewItemList(DEFAULT_CATALOG);
       }
     }
     loadProducts();
@@ -153,8 +163,12 @@ export default function App() {
       setSelectedSize('L');
     }
 
+    trackViewItem(item, selectedSize);
+
     if (window.innerWidth < 1024) {
       setIsMobileCheckoutOpen(true);
+      trackAddToCart(item, selectedSize, 1, item.price);
+      trackBeginCheckout(item, selectedSize, 1, item.price);
     } else {
       studioSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
@@ -230,6 +244,21 @@ export default function App() {
       'TL-' +
       Date.now().toString(36).toUpperCase().slice(-5) +
       Math.random().toString(36).slice(2, 4).toUpperCase();
+
+    // Push Purchase event to DataLayer
+    trackPurchase({
+      orderId: generatedOrderId,
+      totalAmount: totalPrice,
+      item: matchedCatalogItem || selectedProduct,
+      selectedSize: selectedSize,
+      quantity: quantity,
+      unitPrice: unitPrice,
+      customerInfo: {
+        phone: cleanPhone,
+        name: customerName.trim(),
+        zone: deliveryZone
+      }
+    });
 
     setIsSubmitting(false);
     setIsMobileCheckoutOpen(false);
@@ -444,7 +473,12 @@ export default function App() {
         selectedSize={selectedSize}
         formatPrice={formatPrice}
         totalPrice={totalPrice}
-        setIsMobileCheckoutOpen={setIsMobileCheckoutOpen}
+        setIsMobileCheckoutOpen={() => {
+          const cur = matchedCatalogItem || selectedProduct;
+          trackAddToCart(cur, selectedSize, quantity, unitPrice);
+          trackBeginCheckout(cur, selectedSize, quantity, unitPrice);
+          setIsMobileCheckoutOpen(true);
+        }}
       />
 
       {/* 7. Mobile Slide-Up Quick Checkout Drawer with Multi-Image Touch Slider */}
