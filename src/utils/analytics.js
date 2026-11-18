@@ -17,10 +17,6 @@ export const pushToDataLayer = (event, data = {}) => {
     event,
     ...data
   });
-
-  if (process.env.NODE_ENV !== 'production' || window.location.hostname === 'localhost') {
-    console.log([DataLayer] \, data);
-  }
 };
 
 /**
